@@ -56,7 +56,7 @@ async def now(ctx: Context, timezone: str = "UTC") -> str:
         return "Invalid timezone"
     return datetime.now(tz).isoformat()
 
-if __name__ == "__main__":
+async def main():
     config = uvicorn.Config(
         app=mcp.sse_app(),
         host='0.0.0.0',
@@ -67,17 +67,18 @@ if __name__ == "__main__":
     )
     server = uvicorn.Server(config)
 
-    loop = asyncio.get_event_loop()
-
     def handle_exit(*args):
         logger.info("Received shutdown signal. Shutting down gracefully...")
         # Triggering shutdown on the server instance
-        loop.create_task(server.shutdown())
+        asyncio.create_task(server.shutdown())
 
     signal.signal(signal.SIGINT, handle_exit)
     signal.signal(signal.SIGTERM, handle_exit)
 
     try:
-        loop.run_until_complete(server.serve())
+        await server.serve()
     except Exception as e:
         logger.error(f"Server exception: {e}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
