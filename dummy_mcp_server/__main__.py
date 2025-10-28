@@ -4,11 +4,11 @@ from datetime import datetime
 import json
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+import dotenv
 from mcp.server.fastmcp import Context, FastMCP
-from starlette.applications import Starlette
-from starlette.routing import Mount, Host
 import uvicorn
 
+from lib.tts import text_to_speech
 from utils import get_logger, get_uvicorn_log_config
 
 # Create a named server
@@ -56,7 +56,22 @@ async def now(ctx: Context, timezone: str = "UTC") -> str:
         return "Invalid timezone"
     return datetime.now(tz).isoformat()
 
-if __name__ == "__main__":
+@mcp.tool()
+async def speak(ctx: Context, message: str) -> str:
+    """Ouput the message text as speech audio
+    to user via Deepgram TTS API.
+
+    Example use:
+    - speak("Hello, world!")
+    """
+    logger.info(f"speak({json.dumps(message)})")
+    api_key = dotenv.get_key(".env", "DEEPGRAM_API_KEY")
+    text_to_speech(message, api_key)
+    return message
+
+
+async def main():
+    dotenv.load_dotenv()
     config = uvicorn.Config(
         app=mcp.sse_app(),
         host='0.0.0.0',
@@ -67,17 +82,18 @@ if __name__ == "__main__":
     )
     server = uvicorn.Server(config)
 
-    loop = asyncio.get_event_loop()
-
     def handle_exit(*args):
         logger.info("Received shutdown signal. Shutting down gracefully...")
         # Triggering shutdown on the server instance
-        loop.create_task(server.shutdown())
+        asyncio.create_task(server.shutdown())
 
     signal.signal(signal.SIGINT, handle_exit)
     signal.signal(signal.SIGTERM, handle_exit)
 
     try:
-        loop.run_until_complete(server.serve())
+        await server.serve()
     except Exception as e:
         logger.error(f"Server exception: {e}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
