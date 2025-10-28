@@ -1,5 +1,41 @@
 # README
 
+
+## Prerequsities
+
+* Python (3.10+) instaled
+* "python" set to the system path that you can run "python" in your command environment.
+
+
+## Setup and Run `dummy_mcp_server`
+
+1. Open terminal or other Cmd.exe
+
+2. Start virtual environment:
+   ```
+   python -m venv .venv
+   ```
+
+3. Activate the enviornment
+
+   In Linux or macOS:
+   ```
+   source .venv/bin/activate.sh
+   ```
+
+   Or in Windows (Cmd.exe):
+   ```
+   .venv\Scripts\activate.bat
+   ```
+
+   Check venv's official documentation here:
+   https://docs.python.org/3/library/venv.html#how-venvs-work
+
+4. Run the MCP server
+   ```
+   python -m dummy_mcp_server
+   ```
+
 ## Javis setup
 
 ### System Prompt
