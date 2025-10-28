@@ -4,11 +4,13 @@ from datetime import datetime
 import json
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+import dotenv
 from mcp.server.fastmcp import Context, FastMCP
 from starlette.applications import Starlette
 from starlette.routing import Mount, Host
 import uvicorn
 
+from lib.tts import text_to_speech
 from utils import get_logger, get_uvicorn_log_config
 
 # Create a named server
@@ -56,7 +58,22 @@ async def now(ctx: Context, timezone: str = "UTC") -> str:
         return "Invalid timezone"
     return datetime.now(tz).isoformat()
 
+@mcp.tool()
+async def speak(ctx: Context, message: str) -> str:
+    """Ouput the message text as speech audio
+    to user via Deepgram TTS API.
+
+    Example use:
+    - speak("Hello, world!")
+    """
+    logger.info(f"speak({json.dumps(message)})")
+    api_key = dotenv.get_key(".env", "DEEPGRAM_API_KEY")
+    text_to_speech(message, api_key)
+    return message
+
+
 async def main():
+    dotenv.load_dotenv()
     config = uvicorn.Config(
         app=mcp.sse_app(),
         host='0.0.0.0',
