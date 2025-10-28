@@ -6,8 +6,6 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import dotenv
 from mcp.server.fastmcp import Context, FastMCP
-from starlette.applications import Starlette
-from starlette.routing import Mount, Host
 import uvicorn
 
 from lib.tts import text_to_speech
