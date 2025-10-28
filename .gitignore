@@ -6,3 +6,10 @@ __pycache__
 
 # All model files for Ollama modification
 /*.modelfile
+
+# Environment files
+.env
+
+# Audio file generated
+*.wav
+*.mp3
