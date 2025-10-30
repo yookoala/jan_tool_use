@@ -57,16 +57,18 @@ async def now(ctx: Context, timezone: str = "UTC") -> str:
     return datetime.now(tz).isoformat()
 
 @mcp.tool()
-async def speak(ctx: Context, message: str) -> str:
+async def speak(ctx: Context, message: str, model: int) -> str:
     """Ouput the message text as speech audio
     to user via Deepgram TTS API.
 
+    User can choose the voice: 1 for female, 2 for male
+
     Example use:
-    - speak("Hello, world!")
+    - speak("Hello, world!", 1)
     """
-    logger.info(f"speak({json.dumps(message)})")
+    logger.info(f"speak({json.dumps(message)},{model})")
     api_key = dotenv.get_key(".env", "DEEPGRAM_API_KEY")
-    text_to_speech(message, api_key)
+    text_to_speech(message, api_key, model)
     return message
 
 
