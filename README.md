@@ -3,17 +3,18 @@
 
 ## Prerequsities
 
-* Python (3.10+) instaled
-* "python" set to the system path that you can run "python" in your command environment.
+* [Python](https://www.python.org/) (3.10+) instaled
+* [uv](https://docs.astral.sh/uv/) (0.8.9+) installed
+* Both "python" and "uv" set to the system path that you can run "python" in your command environment.
 
 
 ## Setup and Run `dummy_mcp_server`
 
 1. Open terminal or other Cmd.exe
 
-2. Start virtual environment:
+2. Initialize virtual environment and install dependencies
    ```
-   python -m venv .venv
+   uv sync
    ```
 
 3. Activate the enviornment
