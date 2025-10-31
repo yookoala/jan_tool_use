@@ -4,8 +4,55 @@
 ## Prerequsities
 
 * [Python](https://www.python.org/) (3.10+) instaled
+
+  <details>
+  <summary>Windows</summary>
+
+  * Install with [Python Releases for Windows](https://www.python.org/downloads/windows/) or [Python Install Manager](https://apps.microsoft.com/detail/9nq7512cxl7t)
+  * Open [Cmd.exe](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd) or [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701)
+  * Make sure the command "python" gives you the [Python REPL environment](https://realpython.com/python-repl/). If not, try to [add Python to PATH](https://realpython.com/add-python-to-path/).
+  </details>
+
+  <details>
+  <summary>macOS</summary>
+
+  * [Open Terminal](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac)
+
+  * Install [HomeBrew](https://docs.brew.sh/Installation) with the latest instructions, such as:
+    ```bash
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    ```
+
+  * Use HomeBrew to install the latest Python 3 version, for example:
+    ```bash
+    brew install python@3.14
+    ```
+  </details>
+
+  <details>
+  <summary>Linux</summary>
+  Use your distributions package manager (e.g. apt / dnf)
+  </details>
+
 * [uv](https://docs.astral.sh/uv/) (0.8.9+) installed
-* Both "python" and "uv" set to the system path that you can run "python" in your command environment.
+
+  <details>
+  <summary>Windows</summary>
+
+  ```posh
+  powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+  ```
+  </details>
+
+  <details>
+  <summary>macOS / Linux</summary>
+
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+  </details>
+
+* Make sure both "python" and "uv" set to the system path that you can run "python" in your command environment.
 
 
 ## Setup and Run `dummy_mcp_server`
