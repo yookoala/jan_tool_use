@@ -100,6 +100,19 @@ When using tools:
 Remember: Most questions can be answered without tools. Think first whether you need them.
 ```
 
+### Model Choice
+
+- [Jan-v3-4B-base-instruct](https://huggingface.co/janhq/Jan-v3-4B-base-instruct)
+- [Ministral-3-3B-instruct-2512](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512)
+- [Qwen3-4B-instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)
+
+Note: If you want to try other models, remember these:
+
+- Models usually named with the number of parameter (e.g. "4B", "8B"). The more the
+  parameters, the more video memory (VRAM) your machine need to have.
+- Not all model support "tool using". The models with the name "instruct" are usually
+  optimized for "tool using".
+
 
 ## License
 
