@@ -36,11 +36,23 @@ async def what_is_the_timezone(ctx: Context, location: str) -> str:
     - what_is_the_timezone("Hong Kong")
     """
     logger.info(f"what_is_the_timezone({location})" )
-    return "Asia/Tokyo"
+
+    # This works for our purpose. In real world, you may want to use a more
+    # comprehensive location to timezone resolver.
+    timezones = {
+        "Hong Kong": "Asia/Hong_Kong",
+        "Tokyo": "Asia/Tokyo",
+        "New York": "America/New_York",
+        "London": "Europe/London",
+        "UTC": "UTC",
+    }
+    result = timezones.get(location, "UTC")
+    logger.debug(f"Resolved timezone: {result}")
+    return result
 
 @mcp.tool()
 async def now(ctx: Context, timezone: str = "UTC") -> str:
-    """Get the current date, time of a given tz database timezone name, in ISO8601 formati
+    """Get the current date, time of a given tz database timezone name, in ISO8601 format
 
     For example:
     - what_is_the_timezone("Asia/Tokyo")
