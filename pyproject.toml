@@ -1,7 +1,7 @@
 [project]
 name = "jan-tool-using"
 version = "0.1.0"
-requires-python = ">=3.14"
+requires-python = ">=3.12"
 dependencies = [
     "annotated-types==0.7.0",
     "anyio==4.11.0",
