@@ -1,5 +1,4 @@
 import asyncio
-import signal
 from datetime import datetime
 import json
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -11,8 +10,7 @@ import uvicorn
 from lib.tts import text_to_speech
 from utils import get_logger, get_uvicorn_log_config
 
-# Create a named server
-logger = get_logger("Dummy MCP Server")
+# Create a named MCP server
 mcp = FastMCP("Dummy MCP Server")
 
 @mcp.tool()
@@ -37,11 +35,23 @@ async def what_is_the_timezone(ctx: Context, location: str) -> str:
     - what_is_the_timezone("Hong Kong")
     """
     logger.info(f"what_is_the_timezone({location})" )
-    return "Asia/Tokyo"
+
+    # This works for our purpose. In real world, you may want to use a more
+    # comprehensive location to timezone resolver.
+    timezones = {
+        "Hong Kong": "Asia/Hong_Kong",
+        "Tokyo": "Asia/Tokyo",
+        "New York": "America/New_York",
+        "London": "Europe/London",
+        "UTC": "UTC",
+    }
+    result = timezones.get(location, "UTC")
+    logger.debug(f"Resolved timezone: {result}")
+    return result
 
 @mcp.tool()
 async def now(ctx: Context, timezone: str = "UTC") -> str:
-    """Get the current date, time of a given tz database timezone name, in ISO8601 formati
+    """Get the current date, time of a given tz database timezone name, in ISO8601 format
 
     For example:
     - what_is_the_timezone("Asia/Tokyo")
@@ -73,7 +83,6 @@ async def speak(ctx: Context, message: str, model: int) -> str:
 
 
 async def main():
-    dotenv.load_dotenv()
     config = uvicorn.Config(
         app=mcp.sse_app(),
         host='0.0.0.0',
@@ -83,19 +92,13 @@ async def main():
         timeout_graceful_shutdown=10,
     )
     server = uvicorn.Server(config)
-
-    def handle_exit(*args):
-        logger.info("Received shutdown signal. Shutting down gracefully...")
-        # Triggering shutdown on the server instance
-        asyncio.create_task(server.shutdown())
-
-    signal.signal(signal.SIGINT, handle_exit)
-    signal.signal(signal.SIGTERM, handle_exit)
-
-    try:
-        await server.serve()
-    except Exception as e:
-        logger.error(f"Server exception: {e}")
+    await server.serve()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    dotenv.load_dotenv()
+    log_level_str = dotenv.get_key(".env", "LOG_LEVEL") or "INFO"
+    logger = get_logger("Dummy MCP Server", level=log_level_str)
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass  # Graceful shutdown, suppress traceback
