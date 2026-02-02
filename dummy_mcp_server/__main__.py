@@ -11,8 +11,7 @@ import uvicorn
 from lib.tts import text_to_speech
 from utils import get_logger, get_uvicorn_log_config
 
-# Create a named server
-logger = get_logger("Dummy MCP Server")
+# Create a named MCP server
 mcp = FastMCP("Dummy MCP Server")
 
 @mcp.tool()
@@ -73,7 +72,6 @@ async def speak(ctx: Context, message: str, model: int) -> str:
 
 
 async def main():
-    dotenv.load_dotenv()
     config = uvicorn.Config(
         app=mcp.sse_app(),
         host='0.0.0.0',
@@ -98,4 +96,7 @@ async def main():
         logger.error(f"Server exception: {e}")
 
 if __name__ == "__main__":
+    dotenv.load_dotenv()
+    log_level_str = dotenv.get_key(".env", "LOG_LEVEL") or "INFO"
+    logger = get_logger("Dummy MCP Server", level=log_level_str)
     asyncio.run(main())

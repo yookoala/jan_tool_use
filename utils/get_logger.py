@@ -1,6 +1,7 @@
 import logging
 
-def get_logger(name: str) -> logging.Logger:
+def get_logger(name: str, level: str = "INFO") -> logging.Logger:
+    log_level = getattr(logging, level.upper(), logging.INFO)
     ansi_blue = "\x1b[0;34m"
     ansi_cyan = "\x1b[0;36m"
     ansi_reset = "\x1b[0m"
@@ -12,7 +13,7 @@ def get_logger(name: str) -> logging.Logger:
 
     # Check if the logger already exists
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(log_level)
     if not logger.hasHandlers():
         logger.addHandler(log_handler)
     return logger
