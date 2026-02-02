@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from datetime import datetime
 import json
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -8,7 +9,7 @@ from mcp.server.fastmcp import Context, FastMCP
 import uvicorn
 
 from lib.tts import text_to_speech
-from utils import get_logger, get_uvicorn_log_config
+from utils import get_logger, get_uvicorn_log_config, SuppressCancelledErrorFilter
 
 # Create a named MCP server
 mcp = FastMCP("Dummy MCP Server")
@@ -46,7 +47,7 @@ async def what_is_the_timezone(ctx: Context, location: str) -> str:
         "UTC": "UTC",
     }
     result = timezones.get(location, "UTC")
-    logger.debug(f"Resolved timezone: {result}")
+    logger.debug(f"what_is_the_timezone: result={result}")
     return result
 
 @mcp.tool()
@@ -64,7 +65,9 @@ async def now(ctx: Context, timezone: str = "UTC") -> str:
         tz = ZoneInfo(timezone)
     except ZoneInfoNotFoundError:
         return "Invalid timezone"
-    return datetime.now(tz).isoformat()
+    result = datetime.now(tz).isoformat()
+    logger.debug(f"now: result={result}")
+    return result
 
 @mcp.tool()
 async def speak(ctx: Context, message: str, model: int) -> str:
@@ -98,7 +101,15 @@ if __name__ == "__main__":
     dotenv.load_dotenv()
     log_level_str = dotenv.get_key(".env", "LOG_LEVEL") or "INFO"
     logger = get_logger("Dummy MCP Server", level=log_level_str)
+
+    # Suppress CancelledError logs during graceful shutdown
+    cancel_filter = SuppressCancelledErrorFilter()
+    logging.getLogger("uvicorn.error").addFilter(cancel_filter)
+    logging.getLogger("uvicorn").addFilter(cancel_filter)
+
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
+        pass  # Graceful shutdown, suppress traceback
+    except asyncio.exceptions.CancelledError:
         pass  # Graceful shutdown, suppress traceback
