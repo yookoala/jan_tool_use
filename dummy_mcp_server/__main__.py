@@ -47,7 +47,7 @@ async def what_is_the_timezone(ctx: Context, location: str) -> str:
         "UTC": "UTC",
     }
     result = timezones.get(location, "UTC")
-    logger.debug(f"Resolved timezone: {result}")
+    logger.debug(f"what_is_the_timezone: result={result}")
     return result
 
 @mcp.tool()
@@ -65,7 +65,9 @@ async def now(ctx: Context, timezone: str = "UTC") -> str:
         tz = ZoneInfo(timezone)
     except ZoneInfoNotFoundError:
         return "Invalid timezone"
-    return datetime.now(tz).isoformat()
+    result = datetime.now(tz).isoformat()
+    logger.debug(f"now: result={result}")
+    return result
 
 @mcp.tool()
 async def speak(ctx: Context, message: str, model: int) -> str:
