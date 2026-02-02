@@ -1,5 +1,4 @@
 import asyncio
-import signal
 from datetime import datetime
 import json
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
@@ -93,22 +92,13 @@ async def main():
         timeout_graceful_shutdown=10,
     )
     server = uvicorn.Server(config)
-
-    def handle_exit(*args):
-        logger.info("Received shutdown signal. Shutting down gracefully...")
-        # Triggering shutdown on the server instance
-        asyncio.create_task(server.shutdown())
-
-    signal.signal(signal.SIGINT, handle_exit)
-    signal.signal(signal.SIGTERM, handle_exit)
-
-    try:
-        await server.serve()
-    except Exception as e:
-        logger.error(f"Server exception: {e}")
+    await server.serve()
 
 if __name__ == "__main__":
     dotenv.load_dotenv()
     log_level_str = dotenv.get_key(".env", "LOG_LEVEL") or "INFO"
     logger = get_logger("Dummy MCP Server", level=log_level_str)
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        pass  # Graceful shutdown, suppress traceback
