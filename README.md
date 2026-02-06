@@ -3,15 +3,6 @@
 
 ## Prerequsities
 
-* [git](https://git-scm.com/) installed
-
-  git is a source code management software.
-
-  - Windows: https://git-scm.com/install/windows
-  - macOS: https://git-scm.com/install/mac
-  - Linux: https://git-scm.com/install/linux
-
-
 * [uv](https://docs.astral.sh/uv/) (0.8.9+) installed
 
   uv is a python project and package manager.
@@ -48,10 +39,6 @@
   ```
 
 
-## Clone this repository
-
-
-
 ## Setup and Run `dummy_mcp_server`
 
 1. Open terminal or other Cmd.exe
@@ -66,9 +53,26 @@
    uv run -m dummy_mcp_server
    ```
 
-## Javis setup
 
-### System Prompt
+## Jan Setup
+
+### MCP Server
+
+Add MCP server with the following information:
+
+| Field          | Value                                            |
+| -------------- | ------------------------------------------------ |
+| Name           | Dummy MCP Server *(doesn't matter what you set)* |
+| Transport Type | HTTP *(Streamable HTTP)*                         |
+| URL            | http://localhost:8080/mcp                        |
+
+### Jan Assistant setup
+
+Note: This is a known working setup.
+
+#### Instruction
+
+(a.k.a. "System Prompt")
 
 ```
 You are a helpful AI assistant. Your primary goal is to assist users with their questions and tasks to the best of your abilities and the best use of tools.
@@ -95,3 +99,9 @@ When using tools:
 
 Remember: Most questions can be answered without tools. Think first whether you need them.
 ```
+
+
+## License
+
+This software is licensed under the MIT license. A copy of the license can be
+found [here](LICENSE.md).
