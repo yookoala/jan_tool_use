@@ -3,15 +3,6 @@
 
 ## Prerequsities
 
-* [git](https://git-scm.com/) installed
-
-  git is a source code management software.
-
-  - Windows: https://git-scm.com/install/windows
-  - macOS: https://git-scm.com/install/mac
-  - Linux: https://git-scm.com/install/linux
-
-
 * [uv](https://docs.astral.sh/uv/) (0.8.9+) installed
 
   uv is a python project and package manager.
@@ -46,10 +37,6 @@
   ```bash
   uv python install --default
   ```
-
-
-## Clone this repository
-
 
 
 ## Setup and Run `dummy_mcp_server`
