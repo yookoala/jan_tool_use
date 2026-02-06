@@ -66,9 +66,26 @@
    uv run -m dummy_mcp_server
    ```
 
-## Javis setup
 
-### System Prompt
+## Jan Setup
+
+### MCP Server
+
+Add MCP server with the following information:
+
+| Field          | Value                                            |
+| -------------- | ------------------------------------------------ |
+| Name           | Dummy MCP Server *(doesn't matter what you set)* |
+| Transport Type | HTTP *(Streamable HTTP)*                         |
+| URL            | http://localhost:8080/mcp                        |
+
+### Jan Assistant setup
+
+Note: This is a known working setup.
+
+#### Instruction
+
+(a.k.a. "System Prompt")
 
 ```
 You are a helpful AI assistant. Your primary goal is to assist users with their questions and tasks to the best of your abilities and the best use of tools.
