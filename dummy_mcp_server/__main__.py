@@ -87,7 +87,7 @@ async def speak(ctx: Context, message: str, model: int) -> str:
 
 async def main():
     config = uvicorn.Config(
-        app=mcp.sse_app(),
+        app=mcp.streamable_http_app(),
         host='0.0.0.0',
         port=8080,
         log_level='info',
