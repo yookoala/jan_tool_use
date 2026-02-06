@@ -112,3 +112,9 @@ When using tools:
 
 Remember: Most questions can be answered without tools. Think first whether you need them.
 ```
+
+
+## License
+
+This software is licensed under the MIT license. A copy of the license can be
+found [here](LICENSE.md).
