@@ -1,4 +1,8 @@
-# README
+# Jan: Tool Using Demo
+
+This software is to demonstrate MCP server development for a workshop.
+
+The software is shared on GitHub: https://github.com/yookoala/jan_tool_use
 
 
 ## Prerequsities
@@ -35,8 +39,12 @@
   If your computer do not already have Python install and you don't know how, just use the uv command:
 
   ```bash
-  uv python install --default
+  uv python install 3.12
   ```
+
+  **Note:** the function "speak" depends Deepgram's official client. As of 6th Feb 
+  2026, the client have problem with Python 3.14. If you want to use the tool, use
+  Python 3.13 or prior.
 
 
 ## Setup and Run `dummy_mcp_server`
