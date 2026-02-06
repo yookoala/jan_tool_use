@@ -1,4 +1,8 @@
-# README
+# Jan: Tool Using Demo
+
+This software is to demonstrate MCP server development for a workshop.
+
+The software is shared on GitHub: https://github.com/yookoala/jan_tool_use
 
 
 ## Prerequsities
@@ -35,8 +39,12 @@
   If your computer do not already have Python install and you don't know how, just use the uv command:
 
   ```bash
-  uv python install --default
+  uv python install 3.12
   ```
+
+  **Note:** the function "speak" depends Deepgram's official client. As of 6th Feb 
+  2026, the client have problem with Python 3.14. If you want to use the tool, use
+  Python 3.13 or prior.
 
 
 ## Setup and Run `dummy_mcp_server`
@@ -99,6 +107,19 @@ When using tools:
 
 Remember: Most questions can be answered without tools. Think first whether you need them.
 ```
+
+### Model Choice
+
+- [Jan-v3-4B-base-instruct](https://huggingface.co/janhq/Jan-v3-4B-base-instruct)
+- [Ministral-3-3B-instruct-2512](https://huggingface.co/mistralai/Ministral-3-3B-Instruct-2512)
+- [Qwen3-4B-instruct-2507](https://huggingface.co/Qwen/Qwen3-4B-Instruct-2507)
+
+Note: If you want to try other models, remember these:
+
+- Models usually named with the number of parameter (e.g. "4B", "8B"). The more the
+  parameters, the more video memory (VRAM) your machine need to have.
+- Not all model support "tool using". The models with the name "instruct" are usually
+  optimized for "tool using".
 
 
 ## License
